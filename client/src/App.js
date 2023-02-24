@@ -7,7 +7,7 @@ export const App = () => {
     <Router>
       <Routes>
         <Route exact path='/' element={<HomePage />} />
-        <Route path='/person/:personID' element={<PersonPage />} />
+        <Route path='/people/:personID' element={<PersonPage />} />
       </Routes>
     </Router>
   );

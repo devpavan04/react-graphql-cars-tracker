@@ -123,6 +123,8 @@ const typeDefs = gql`
     cars: [Car]
     # Get a car by id - id is required
     car(id: ID!): Car
+    # Get all cars by person id - personId is required
+    carsByPersonId(personId: ID!): [Car]
   }
 
   type Mutation {
@@ -169,6 +171,14 @@ const resolvers = {
 
       return car;
     },
+    // Get all cars by person id
+    carsByPersonId: (_, args) => {
+      const carsByPersonId = cars.filter((car) => car.personId === args.personId);
+
+      if (!carsByPersonId) throw new Error('Cars not found');
+
+      return carsByPersonId;
+    },
   },
   Mutation: {
     // Mutations for people
@@ -209,7 +219,10 @@ const resolvers = {
     // Mutations for cars
     // Add a car
     addCar: (_, args) => {
+      console.log(args);
       const person = people.find((person) => person.id === args.personId);
+
+      console.log(person);
 
       if (!person) throw new Error('Person not found');
 
@@ -221,6 +234,8 @@ const resolvers = {
         price: args.price,
         personId: args.personId,
       };
+
+      console.log(car);
 
       cars.push(car);
 
