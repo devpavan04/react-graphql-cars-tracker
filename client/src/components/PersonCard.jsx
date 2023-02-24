@@ -29,6 +29,12 @@ export const PersonCard = ({ person, disableLink, defaultTab }) => {
         });
       },
     });
+
+    setToast({
+      text: 'Person deleted successfully!',
+      type: 'success',
+      delay: 3000,
+    });
   };
 
   const handleDeleteCar = (carID) => {
@@ -49,6 +55,12 @@ export const PersonCard = ({ person, disableLink, defaultTab }) => {
           data: { carsByPersonId: carsByPersonId.filter((car) => car.id !== deleteCar.id) },
         });
       },
+    });
+
+    setToast({
+      text: 'Car deleted successfully!',
+      type: 'success',
+      delay: 3000,
     });
   };
 

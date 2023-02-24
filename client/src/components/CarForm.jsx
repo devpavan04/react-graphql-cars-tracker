@@ -95,7 +95,7 @@ export const CarForm = () => {
           {loadingPeopleData ? (
             <Loading />
           ) : (
-            peopleData?.people.map((person) => (
+            [...peopleData?.people].reverse().map((person) => (
               <Select.Option key={person.id} value={person.id}>
                 {person.firstName} {person.lastName}
               </Select.Option>
