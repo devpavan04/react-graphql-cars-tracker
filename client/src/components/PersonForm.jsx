@@ -53,7 +53,7 @@ export const PersonForm = () => {
           clearable
           onChange={(e) => setLastName(e.target.value)}
         />
-        <Button auto type='secondary-light' onClick={handleAddPerson}>
+        <Button auto type='secondary-light' shadow onClick={handleAddPerson}>
           Add Person
         </Button>
       </div>

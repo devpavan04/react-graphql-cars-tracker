@@ -102,7 +102,7 @@ export const CarForm = () => {
             ))
           )}
         </Select>
-        <Button auto type='secondary-light' onClick={handleAddCar}>
+        <Button auto type='secondary-light' shadow onClick={handleAddCar}>
           Add Car
         </Button>
       </div>
