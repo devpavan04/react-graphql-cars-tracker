@@ -11,8 +11,8 @@ export const ADD_PERSON = gql`
 `;
 
 export const ADD_CAR = gql`
-  mutation AddCar($carID: ID!, $year: String!, $make: String!, $model: String!, $price: String!, $personID: ID!) {
-    addCar(id: $carID, year: $year, make: $make, model: $model, price: $price, personId: $personID) {
+  mutation AddCar($carID: ID!, $year: String!, $make: String!, $model: String!, $price: String!, $personId: ID!) {
+    addCar(id: $carID, year: $year, make: $make, model: $model, price: $price, personId: $personId) {
       id
       year
       make

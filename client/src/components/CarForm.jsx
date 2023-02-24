@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useQuery, useMutation } from '@apollo/client';
 import { Input, Button, Text, Select, Loading, useToasts, Divider } from '@geist-ui/core';
-import { ADD_CAR, GET_PEOPLE, GET_CARS } from '../gql';
+import { ADD_CAR, GET_PEOPLE, GET_CARS_BY_PERSON_ID } from '../gql';
 
 export const CarForm = () => {
   const [year, setYear] = useState('');
@@ -24,17 +24,13 @@ export const CarForm = () => {
 
     addCar({
       variables: { carID: uuidv4(), year, make, model, price, personId },
-      // update: (cache, { data: { addCar } }) => {
-      //   const { cars } = cache.readQuery({ query: GET_CARS });
-      //   cache.writeQuery({ query: GET_CARS, data: { cars: cars.concat([addCar]) } });
-      // },
-    });
-
-    addCar({
-      variables: { carID: uuidv4(), year, make, model, price, personId },
       update: (cache, { data: { addCar } }) => {
-        const { cars } = cache.readQuery({ query: GET_CARS });
-        cache.writeQuery({ query: GET_CARS, data: { cars: cars.concat([addCar]) } });
+        const { carsByPersonId } = cache.readQuery({ query: GET_CARS_BY_PERSON_ID, variables: { personID: personId } });
+        cache.writeQuery({
+          query: GET_CARS_BY_PERSON_ID,
+          variables: { personID: personId },
+          data: { carsByPersonId: carsByPersonId.concat([addCar]) },
+        });
       },
     });
 
@@ -54,6 +50,7 @@ export const CarForm = () => {
       </Divider>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginTop: '3rem' }}>
         <Input
+          value={year}
           label='Year'
           placeholder='Year'
           type='secondary'
@@ -62,6 +59,7 @@ export const CarForm = () => {
           onChange={(e) => setYear(e.target.value)}
         />
         <Input
+          value={make}
           label='Make'
           placeholder='Make'
           type='secondary'
@@ -70,6 +68,7 @@ export const CarForm = () => {
           onChange={(e) => setMake(e.target.value)}
         />
         <Input
+          value={model}
           label='Model'
           placeholder='Model'
           type='secondary'
@@ -78,6 +77,7 @@ export const CarForm = () => {
           onChange={(e) => setModel(e.target.value)}
         />
         <Input
+          value={price}
           label='Price'
           placeholder='$'
           type='secondary'
@@ -86,6 +86,7 @@ export const CarForm = () => {
           onChange={(e) => setPrice(e.target.value)}
         />
         <Select
+          value={personId}
           placeholder='Select a Person'
           type='secondary'
           style={{ borderColor: '#000' }}
@@ -94,7 +95,7 @@ export const CarForm = () => {
           {loadingPeopleData ? (
             <Loading />
           ) : (
-            peopleData.people.map((person) => (
+            peopleData?.people.map((person) => (
               <Select.Option key={person.id} value={person.id}>
                 {person.firstName} {person.lastName}
               </Select.Option>

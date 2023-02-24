@@ -219,10 +219,7 @@ const resolvers = {
     // Mutations for cars
     // Add a car
     addCar: (_, args) => {
-      console.log(args);
       const person = people.find((person) => person.id === args.personId);
-
-      console.log(person);
 
       if (!person) throw new Error('Person not found');
 
@@ -234,8 +231,6 @@ const resolvers = {
         price: args.price,
         personId: args.personId,
       };
-
-      console.log(car);
 
       cars.push(car);
 
