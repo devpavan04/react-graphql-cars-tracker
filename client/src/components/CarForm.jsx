@@ -19,7 +19,11 @@ export const CarForm = () => {
 
   const handleAddCar = () => {
     if (!year || !make || !model || !price || !personId) {
-      return setToast({ text: 'Please fill in all the fields!', type: 'error', delay: 3000 });
+      return setToast({
+        text: 'Please fill out the form to add a new car. All fields are required',
+        type: 'error',
+        delay: 3000,
+      });
     }
 
     addCar({

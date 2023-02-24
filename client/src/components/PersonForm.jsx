@@ -14,7 +14,11 @@ export const PersonForm = () => {
 
   const handleAddPerson = () => {
     if (!firstName || !lastName) {
-      return setToast({ text: 'Please fill in all the fields!', type: 'error', delay: 3000 });
+      return setToast({
+        text: 'Please fill out the form to add a new person. All fields are required',
+        type: 'error',
+        delay: 3000,
+      });
     }
 
     addPerson({

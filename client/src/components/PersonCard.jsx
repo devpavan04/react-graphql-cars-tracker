@@ -84,6 +84,14 @@ export const PersonCard = ({ person, disableLink, defaultTab }) => {
   };
 
   const handleUpdatePerson = (personID) => {
+    if (!editedFirstName || !editedLastName) {
+      return setToast({
+        text: 'Nothing to update! Please fill out the form to update the person. All fields are optional.',
+        type: 'warning',
+        delay: 3000,
+      });
+    }
+
     updatePerson({
       variables: { personID, firstName: editedFirstName, lastName: editedLastName },
       update: (cache, { data: { updatePerson } }) => {
@@ -103,6 +111,14 @@ export const PersonCard = ({ person, disableLink, defaultTab }) => {
   };
 
   const handleUpdateCar = (carID) => {
+    if (!editedYear || !editedMake || !editedModel || !editedPrice || !editedPersonId) {
+      return setToast({
+        text: 'Nothing to update! Please fill out the form to update the car. All fields are optional.',
+        type: 'warning',
+        delay: 3000,
+      });
+    }
+
     updateCar({
       variables: {
         carID,
