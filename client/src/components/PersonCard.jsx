@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { Input, Button, Loading, Select, Text, useToasts, Fieldset, Spinner } from '@geist-ui/core';
+import { Input, Button, Description, Loading, Select, Text, useToasts, Fieldset, Spinner } from '@geist-ui/core';
 import { Edit, Trash2, User, ChevronRight, List } from '@geist-ui/icons';
 import { Link } from 'react-router-dom';
 import { UPDATE_PERSON, GET_PEOPLE, DELETE_CAR, DELETE_PERSON, GET_CARS_BY_PERSON_ID, UPDATE_CAR } from '../gql';
@@ -84,9 +84,9 @@ export const PersonCard = ({ person, disableLink, defaultTab }) => {
   };
 
   const handleUpdatePerson = (personID) => {
-    if (!editedFirstName || !editedLastName) {
+    if (!editedFirstName && !editedLastName) {
       return setToast({
-        text: 'Nothing to update! Please fill out the form to update the person. All fields are optional.',
+        text: 'Looks like you forgot to fill out a field or two!',
         type: 'warning',
         delay: 3000,
       });
@@ -103,17 +103,19 @@ export const PersonCard = ({ person, disableLink, defaultTab }) => {
       },
     });
 
-    setToast({
-      text: 'Person updated successfully!',
-      type: 'success',
-      delay: 3000,
-    });
+    if (editedFirstName || editedLastName) {
+      setToast({
+        text: 'Person updated successfully!',
+        type: 'success',
+        delay: 3000,
+      });
+    }
   };
 
   const handleUpdateCar = (carID) => {
-    if (!editedYear || !editedMake || !editedModel || !editedPrice || !editedPersonId) {
+    if (!editedYear && !editedMake && !editedModel && !editedPrice && !editedPersonId) {
       return setToast({
-        text: 'Nothing to update! Please fill out the form to update the car. All fields are optional.',
+        text: 'Looks like you forgot to fill out a field or two!',
         type: 'warning',
         delay: 3000,
       });
@@ -145,11 +147,13 @@ export const PersonCard = ({ person, disableLink, defaultTab }) => {
       },
     });
 
-    setToast({
-      text: 'Car updated successfully!',
-      type: 'success',
-      delay: 3000,
-    });
+    if (editedYear || editedMake || editedModel || editedPrice || editedPersonId) {
+      setToast({
+        text: 'Car updated successfully!',
+        type: 'success',
+        delay: 3000,
+      });
+    }
   };
 
   return (
@@ -159,6 +163,7 @@ export const PersonCard = ({ person, disableLink, defaultTab }) => {
           <User />
           {firstName} {lastName}
         </Fieldset.Title>
+        <Text>Total no. of cars: {carsData?.carsByPersonId.length}</Text>
       </Fieldset>
       <Fieldset label='Cars'>
         <Fieldset.Title style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
@@ -174,21 +179,17 @@ export const PersonCard = ({ person, disableLink, defaultTab }) => {
                 <Fieldset.Group key={car.id} defaultValue='Car' value='Car'>
                   <Fieldset label='Car'>
                     <Fieldset.Title
-                      style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-around',
+                        marginTop: '1rem',
+                      }}
                     >
-                      {car.make}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <ChevronRight />
-                        Year {car.year}
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <ChevronRight />
-                        By {car.model}
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <ChevronRight />
-                        Price ${car.price}
-                      </div>
+                      <Description title='Make' content={car.make} />
+                      <Description title='Year' content={car.year} />
+                      <Description title='Model' content={car.model} />
+                      <Description title='Price' content={`$${car.price}`} />
                     </Fieldset.Title>
                   </Fieldset>
                   <Fieldset label='Update'>
