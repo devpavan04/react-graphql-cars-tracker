@@ -1,7 +1,5 @@
 # WMDD 4998 - React GraphQL Cars Tracker 🚘
 
-Submitted By: Pavan Soratur (100377078)
-
 Demo video: [Youtube](https://www.youtube.com/watch?v=RIZi3Io_xBs)
 
 Built with: [GeistUI Component Library](https://geist-ui.dev/en-us)
